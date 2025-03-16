@@ -1,16 +1,16 @@
 import { useState } from "react";
 import axios from 'axios'
 
-const BASE_URL_PROD = 'https://aiproject-vsdh.onrender.com';
-const BASE_URL_DEV = 'http://localhost:10000';
+// const BASE_URL_PROD = 'https://aiproject-vsdh.onrender.com';
+// const BASE_URL_DEV = 'http://localhost:10000';
 
 // todo fix logic (environment ?)
-const BASE_URL = BASE_URL_DEV;
 
+const BASE_URL = import.meta.env.VITE_API_URL
+console.log("API URL:", BASE_URL);
 // todo egen fil
 const api = axios.create({
-  baseURL: BASE_URL,
-  //headers: {'Content-Type': 'application/json'}
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
