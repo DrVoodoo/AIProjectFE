@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from 'axios'
 
-
-// todo egen fil
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
@@ -11,10 +9,22 @@ const api = axios.create({
   },
 });
 
-
-
 const useChatBot = () => {
   const [loading, setLoading] = useState(true);
+
+  const welcomeMessage = async () => {
+    try {
+      setLoading(true);
+      const answer = await api.get("/");
+
+      setLoading(false);
+      console.log(answer);
+      return answer.data.message;
+    } catch (error) {
+      setLoading(false);
+      console.log("Error: ", error);
+    }
+  };
 
   const ask = async (question, thread) => {
     try {
@@ -23,29 +33,8 @@ const useChatBot = () => {
 
       const answer = await api.post("/chat", payload);
 
-      // let answer = await api({
-      //   url: "/chat",
-      //   data: payload,
-      //   method: "POST",
-      //   // transformRequest: [function (data, headers) {
-      //   //   // Do whatever you want to transform the data
-      
-      //   //   console.log(data, headers)
-      //   //   return data;
-      //   // }],
-      //   // transformResponse: [function (data) {
-      //   //   // Do whatever you want to transform the data
-      
-      //   //   console.log('response', data)
-      //   //   return data;
-      //   // }],
-      // });
-
-      console.log(answer);
-      //{"response":"Arrived, you have, young one.","thread_id":"default"}
-
       setLoading(false);
-      return answer.response;
+      return answer.data.response;
     } catch (error) {
       setLoading(false);
       console.log("Error: ", error);
@@ -54,6 +43,7 @@ const useChatBot = () => {
   };
 
   return {
+    welcomeMessage,
     ask,
     loading
   };
