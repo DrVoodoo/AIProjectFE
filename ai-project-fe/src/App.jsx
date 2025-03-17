@@ -25,7 +25,6 @@ function App() {
     }
 
     const answer = await cb.ask(inputValue, 'default');
-    console.log('answer', answer)
     addQA(inputValue, answer);
     clearInput();
   }
@@ -39,7 +38,6 @@ function App() {
   const addQA = (question, answer) => {
     const newQaList = qaList;
     newQaList.unshift({question, answer})
-    console.log('new list', newQaList)
     setQaList(newQaList)
   }
 

@@ -18,7 +18,6 @@ const useChatBot = () => {
       const answer = await api.get("/");
 
       setLoading(false);
-      console.log(answer);
       return answer.data.message;
     } catch (error) {
       setLoading(false);
