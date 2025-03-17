@@ -1,13 +1,7 @@
 import { useState } from "react";
 import axios from 'axios'
 
-// const BASE_URL_PROD = 'https://aiproject-vsdh.onrender.com';
-// const BASE_URL_DEV = 'http://localhost:10000';
 
-// todo fix logic (environment ?)
-
-const BASE_URL = import.meta.env.VITE_API_URL
-console.log("API URL:", BASE_URL);
 // todo egen fil
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
@@ -48,12 +42,14 @@ const useChatBot = () => {
       // });
 
       console.log(answer);
+      //{"response":"Arrived, you have, young one.","thread_id":"default"}
 
       setLoading(false);
-      return answer;
+      return answer.response;
     } catch (error) {
       setLoading(false);
       console.log("Error: ", error);
+      return "error, something went wrong";
     }
   };
 

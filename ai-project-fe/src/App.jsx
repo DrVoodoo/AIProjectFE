@@ -2,21 +2,44 @@ import { useState } from 'react'
 
 import useChatBot from './useChatBot'
 
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Play } from "lucide-react";
 import './App.css'
 
 function App() {
   const cb = useChatBot();
-  const [count, setCount] = useState(0)
+  const [inputValue, setInputValue] = useState("");
+  const [qaList, setQaList] = useState([])
 
-  const testCB = async () => {
-    await cb.ask('Hi!', 'default')
+  const callChatBot = async () => {
+    if (!inputValue || inputValue.length === 0){
+      return;
+    }
+
+    const answer = await cb.ask(inputValue, 'default');
+    addQA(inputValue, answer);
+    clearInput();
+  }
+
+  const handleKeyDown = (e) => {
+    console.log(e);
+    if (e.key === "Enter"){
+      callChatBot();
+    }
+  }
+
+  const addQA = (question, answer) => {
+    const newQaList = qaList;
+    newQaList.unshift({question, answer})
+    setQaList(newQaList)
+  }
+
+  const clearInput = () => {
+    setInputValue("");
   }
 
   return (
     <>
-      <div>
+      {/* <div>
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
@@ -37,9 +60,23 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
       <p>
-        <button onClick={() => testCB()}>
-          Test chatbot
+
+      </p> */}
+      <p>
+        <input
+          type="text"
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          placeholder="Type something..."
+          //className="w-full p-2 border rounded-md"
+        />
+        <button onClick={() => callChatBot()}>
+          <Play />
         </button>
+      </p>
+      <p>
+
       </p>
     </>
   )
