@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import QAList from './QAList'
 import useChatBot from './useChatBot'
 
@@ -7,17 +7,8 @@ import './App.css'
 
 function App() {
   const cb = useChatBot();
-  const [header, setHeader] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [qaList, setQaList] = useState([])
-
-  useEffect(() => {
-    const fetchWelcomeMessage = async () => {
-      const msg = await cb.welcomeMessage();
-      setHeader(msg);
-    };
-    fetchWelcomeMessage();
-  }, []);
 
   const callChatBot = async () => {
     if (!inputValue || inputValue.length === 0){
@@ -45,14 +36,10 @@ function App() {
     setInputValue("");
   }
 
-  if (!header || header.length === 0) {
-    return <></>
-  }
-  
   return (
     <>
       <h1 className="text-3xl font-bold">
-        {header}
+        {cb.welcomeMessage}
       </h1>
       <div className="flex justify-center mt-4">
         <input

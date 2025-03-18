@@ -10,20 +10,7 @@ const api = axios.create({
 });
 
 const useChatBot = () => {
-  const [loading, setLoading] = useState(true);
-
-  const welcomeMessage = async () => {
-    try {
-      setLoading(true);
-      const answer = await api.get("/");
-
-      setLoading(false);
-      return answer.data.message;
-    } catch (error) {
-      setLoading(false);
-      console.log("Error: ", error);
-    }
-  };
+  const [loading, setLoading] = useState(false);
 
   const ask = async (question, thread) => {
     try {
@@ -42,7 +29,7 @@ const useChatBot = () => {
   };
 
   return {
-    welcomeMessage,
+    welcomeMessage: 'Sök på livsmedelsverkets data från 2024-12-05. Livsmedel visas per 100 gram',
     ask,
     loading
   };
